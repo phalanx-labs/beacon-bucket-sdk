@@ -1,0 +1,22 @@
+version: v2
+
+modules:
+  - path: proto
+
+lint:
+  use:
+    - MINIMAL
+  except:
+    - PACKAGE_DIRECTORY_MATCH
+    - PACKAGE_SAME_DIRECTORY
+    - DIRECTORY_SAME_PACKAGE
+    - PACKAGE_LOWER_SNAKE_CASE
+    - PACKAGE_VERSION_SUFFIX
+    - PACKAGE_DEFINED
+    - SYNTAX_SPECIFIED
+  ignore:
+    - link/base.proto
+
+breaking:
+  use:
+    - FILE

@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/protobuf/timestamp.proto";
+import "link/base.proto";
+
+// 生成的 Go 代码存放路径
+option go_package = "github.com/phalanx-labs/beacon-bucket-sdk/api";
+
+service NormalUploadService {
+  rpc Upload(UploadRequest) returns (UploadResponse);
+  rpc CacheVerify(CacheVerifyRequest) returns (CacheVerifyResponse);
+  rpc Delete(DeleteRequest) returns (DeleteResponse);
+}
+
+// =======================================
+// Upload - 上传文件
+// =======================================
+
+message UploadRequest {
+  string bucket_id = 1;
+  string path_id = 2;
+  string content_base64 = 3;       // 必须为 MIME Base64 格式（如 data:image/png;base64,...）
+  optional string description = 4;
+}
+
+message UploadResponse {
+  xBase.BaseResponse base_response = 1;
+  string file_id = 2;
+  string bucket_id = 3;
+  string path_id = 4;
+  string file_name = 5;
+  int64 size = 6;
+  optional string etag = 7;
+  string mime_type = 8;
+  bool is_cache = 9;
+  google.protobuf.Timestamp uploaded_at = 10;
+  optional google.protobuf.Timestamp cache_verify_deadline_at = 11;
+  optional string object_key = 12;
+}
+
+// =======================================
+// Cache Verify - 验证上传内容是否已存在于缓存中
+// =======================================
+
+message CacheVerifyRequest {
+  string file_id = 1;
+}
+
+message CacheVerifyResponse {
+  xBase.BaseResponse base_response = 1;
+  string file_id = 2;
+  bool is_cache = 3;
+  google.protobuf.Timestamp cache_verify_at = 4;
+}
+
+// =======================================
+// Delete - 删除文件
+// =======================================
+
+message DeleteRequest {
+  string file_id = 1;
+}
+
+message DeleteResponse {
+  xBase.BaseResponse base_response = 1;
+}
