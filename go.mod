@@ -7,3 +7,8 @@ require (
 	github.com/bamboo-services/bamboo-base-go v1.0.0-202602211940
 	google.golang.org/protobuf v1.36.10
 )
+
+require (
+	golang.org/x/net v0.50.0 // indirect
+	golang.org/x/text v0.34.0 // indirect
+)
