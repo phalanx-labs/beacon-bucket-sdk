@@ -2,7 +2,7 @@
 //
 // Source: normal_upload.proto
 
-package bGrpcApiconnect
+package apiconnect
 
 import (
 	connect "connectrpc.com/connect"

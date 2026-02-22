@@ -8,30 +8,67 @@ import (
 	"net/http"
 
 	"connectrpc.com/connect"
-	"github.com/phalanx-labs/beacon-bucket-sdk/internal/api/bGrpcApiconnect"
-	"github.com/phalanx-labs/beacon-bucket-sdk/internal/service"
-	"github.com/phalanx-labs/beacon-bucket-sdk/internal/types"
+	"github.com/phalanx-labs/beacon-bucket-sdk/internal/api/apiconnect"
+	"github.com/phalanx-labs/beacon-bucket-sdk/service"
 	"golang.org/x/net/http2"
 )
 
-// BucketClient 是 Beacon Bucket SDK 的主客户端
-type BucketClient struct {
-	normalUpload *service.NormalUploadService
-	headers      map[string]string
+// WithConnect 设置主机地址
+func WithConnect(host, port string) Option {
+	return func(c *BucketClient) {
+		c.host = host
+		c.port = port
+	}
 }
 
-// NewClient 创建并返回一个新的 BucketClient 实例。
+// WithAppAccess 设置 app-access-id 用于认证
+func WithAppAccess(appAccessID, appSecretKey string) Option {
+	return func(c *BucketClient) {
+		c.headers["app-access-id"] = appAccessID
+		c.headers["app-secret-key"] = appSecretKey
+	}
+}
+
+// WithProtoClient 直接传入 proto client（用于测试或自定义）
+func WithProtoClient(protoClient apiconnect.NormalUploadServiceClient) Option {
+	return func(c *BucketClient) {
+		c.protoClient = protoClient
+	}
+}
+
+// NewClient 创建并返回一个新的 BucketClient 实例
 //
-// 该函数负责初始化底层的 HTTP/2 Cleartext (h2c) 客户端，并配置连接参数以支持非 TLS 的
-// gRPC 通信。它通过 Connect 协议的 WithGRPC 选项构建 NormalUploadServiceClient。
-//
-// 参数:
-//   - host: 目标服务的主机地址 (例如 "localhost")。
-//   - port: 目标服务的端口号 (例如 "8080")。
-//
-// 返回值:
-//   - *BucketClient: 初始化完成的客户端实例，包含可用的 NormalUpload 服务接口。
-func NewClient(host, port string) *BucketClient {
+// 支持多种初始化方式：
+//   - 方式 1: 通过 host/port 创建
+//     client := bBucket.NewClient(WithConnect("localhost"), WithPort("5589"))
+//   - 方式 2: 直接传入 proto client（用于测试或自定义）
+//     client := bBucket.NewClient(WithProtoClient(protoClient))
+//   - 方式 3: 通过 Option 设置认证信息
+//     client := bBucket.NewClient(
+//     WithConnect("localhost", "port"),
+//     WithAppAccess("xxx", "yyy"),
+//     )
+func NewClient(opts ...Option) *BucketClient {
+	c := &BucketClient{
+		headers: make(map[string]string),
+	}
+
+	// 应用所有选项
+	for _, opt := range opts {
+		opt(c)
+	}
+
+	// 如果没有传入 proto client，则使用 host/port 创建
+	if c.protoClient == nil {
+		c.protoClient = c.createProtoClient()
+	}
+
+	c.Normal = service.NewNormalUploadService(c.protoClient, c.headers)
+	return c
+}
+
+// createProtoClient 创建 h2c proto client
+func (c *BucketClient) createProtoClient() apiconnect.NormalUploadServiceClient {
 	h2cClient := &http.Client{
 		Transport: &http2.Transport{
 			AllowHTTP: true,
@@ -41,35 +78,9 @@ func NewClient(host, port string) *BucketClient {
 			},
 		},
 	}
-
-	protoClient := bGrpcApiconnect.NewNormalUploadServiceClient(
+	return apiconnect.NewNormalUploadServiceClient(
 		h2cClient,
-		fmt.Sprintf("http://%s:%s", host, port),
+		fmt.Sprintf("http://%s:%s", c.host, c.port),
 		connect.WithGRPC(),
 	)
-
-	return &BucketClient{
-		normalUpload: service.NewNormalUploadService(protoClient),
-		headers:      make(map[string]string),
-	}
-}
-
-// SetHeader 设置默认 header，所有请求都会携带
-func (c *BucketClient) SetHeader(key, value string) {
-	c.headers[key] = value
-}
-
-// Upload 上传文件
-func (c *BucketClient) Upload(ctx context.Context, req *types.UploadRequest) (*types.UploadResponse, error) {
-	return c.normalUpload.Upload(ctx, req, c.headers)
-}
-
-// CacheVerify 验证缓存
-func (c *BucketClient) CacheVerify(ctx context.Context, req *types.CacheVerifyRequest) (*types.CacheVerifyResponse, error) {
-	return c.normalUpload.CacheVerify(ctx, req, c.headers)
-}
-
-// Delete 删除文件
-func (c *BucketClient) Delete(ctx context.Context, req *types.DeleteRequest) (*types.DeleteResponse, error) {
-	return c.normalUpload.Delete(ctx, req, c.headers)
 }
