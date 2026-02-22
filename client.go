@@ -8,12 +8,16 @@ import (
 	"net/http"
 
 	"connectrpc.com/connect"
-	"github.com/phalanx-labs/beacon-bucket-sdk/api/apiconnect"
+	"github.com/phalanx-labs/beacon-bucket-sdk/internal/api/bGrpcApiconnect"
+	"github.com/phalanx-labs/beacon-bucket-sdk/internal/service"
+	"github.com/phalanx-labs/beacon-bucket-sdk/internal/types"
 	"golang.org/x/net/http2"
 )
 
+// BucketClient 是 Beacon Bucket SDK 的主客户端
 type BucketClient struct {
-	NormalUpload apiconnect.NormalUploadServiceClient
+	normalUpload *service.NormalUploadService
+	headers      map[string]string
 }
 
 // NewClient 创建并返回一个新的 BucketClient 实例。
@@ -38,11 +42,34 @@ func NewClient(host, port string) *BucketClient {
 		},
 	}
 
+	protoClient := bGrpcApiconnect.NewNormalUploadServiceClient(
+		h2cClient,
+		fmt.Sprintf("http://%s:%s", host, port),
+		connect.WithGRPC(),
+	)
+
 	return &BucketClient{
-		NormalUpload: apiconnect.NewNormalUploadServiceClient(
-			h2cClient,
-			fmt.Sprintf("http://%s:%s", host, port),
-			connect.WithGRPC(),
-		),
+		normalUpload: service.NewNormalUploadService(protoClient),
+		headers:      make(map[string]string),
 	}
+}
+
+// SetHeader 设置默认 header，所有请求都会携带
+func (c *BucketClient) SetHeader(key, value string) {
+	c.headers[key] = value
+}
+
+// Upload 上传文件
+func (c *BucketClient) Upload(ctx context.Context, req *types.UploadRequest) (*types.UploadResponse, error) {
+	return c.normalUpload.Upload(ctx, req, c.headers)
+}
+
+// CacheVerify 验证缓存
+func (c *BucketClient) CacheVerify(ctx context.Context, req *types.CacheVerifyRequest) (*types.CacheVerifyResponse, error) {
+	return c.normalUpload.CacheVerify(ctx, req, c.headers)
+}
+
+// Delete 删除文件
+func (c *BucketClient) Delete(ctx context.Context, req *types.DeleteRequest) (*types.DeleteResponse, error) {
+	return c.normalUpload.Delete(ctx, req, c.headers)
 }

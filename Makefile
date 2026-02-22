@@ -1,12 +1,16 @@
 # 变量定义，方便后续维护
-MAIN_FILE = main.go
-SWAG_CMD = swag
-SWAG_FLAGS = --parseDependency
-BUILD_SCRIPT = script/build-docker.sh
-SCRIPT_DIR = script
 PROTO_FILE ?= proto/normal_upload.proto
 BASE_GO_MODULE_DIR := $(shell go list -m -f '{{.Dir}}' github.com/bamboo-services/bamboo-base-go)
 XBASE_LINK := proto/link/base.proto
+
+# 获取版本号（去除 v 前缀）
+VERSION := $(shell cat version | sed 's/^v//')
+
+# 获取当前时间戳（格式：YYYYMMDDHHMM）
+TIMESTAMP := $(shell date +"%Y%m%d%H%M")
+
+# 完整 tag 名称
+TAG_NAME := v$(VERSION)-$(TIMESTAMP)
 
 .DEFAULT_GOAL := help
 

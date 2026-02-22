@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: normal_upload.proto
 
-package api
+package bGrpcApi
 
 import (
 	generate "github.com/bamboo-services/bamboo-base-go/grpc/generate"
@@ -467,7 +467,7 @@ const file_normal_upload_proto_rawDesc = "" +
 	"\x13NormalUploadService\x125\n" +
 	"\x06Upload\x12\x14.proto.UploadRequest\x1a\x15.proto.UploadResponse\x12D\n" +
 	"\vCacheVerify\x12\x19.proto.CacheVerifyRequest\x1a\x1a.proto.CacheVerifyResponse\x125\n" +
-	"\x06Delete\x12\x14.proto.DeleteRequest\x1a\x15.proto.DeleteResponseB/Z-github.com/phalanx-labs/beacon-bucket-sdk/apib\x06proto3"
+	"\x06Delete\x12\x14.proto.DeleteRequest\x1a\x15.proto.DeleteResponseBAZ?github.com/phalanx-labs/beacon-bucket-sdk/internal/api;bGrpcApib\x06proto3"
 
 var (
 	file_normal_upload_proto_rawDescOnce sync.Once

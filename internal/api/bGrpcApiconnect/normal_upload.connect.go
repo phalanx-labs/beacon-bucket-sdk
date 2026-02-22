@@ -2,13 +2,13 @@
 //
 // Source: normal_upload.proto
 
-package apiconnect
+package bGrpcApiconnect
 
 import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	api "github.com/phalanx-labs/beacon-bucket-sdk/api"
+	api "github.com/phalanx-labs/beacon-bucket-sdk/internal/api"
 	http "net/http"
 	strings "strings"
 )
