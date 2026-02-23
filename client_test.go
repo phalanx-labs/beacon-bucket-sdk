@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"connectrpc.com/connect"
-	"github.com/phalanx-labs/beacon-bucket-sdk/internal/api"
+	"github.com/phalanx-labs/beacon-bucket-sdk/api"
 )
 
 func TestNormalUpload_Upload(t *testing.T) {

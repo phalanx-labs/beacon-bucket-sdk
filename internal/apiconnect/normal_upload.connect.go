@@ -8,7 +8,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	api "github.com/phalanx-labs/beacon-bucket-sdk/internal/api"
+	api "github.com/phalanx-labs/beacon-bucket-sdk/api"
 	http "net/http"
 	strings "strings"
 )

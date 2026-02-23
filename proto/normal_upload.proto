@@ -6,7 +6,7 @@ import "google/protobuf/timestamp.proto";
 import "link/base.proto";
 
 // 生成的 Go 代码存放路径
-option go_package = "github.com/phalanx-labs/beacon-bucket-sdk/internal/api";
+option go_package = "github.com/phalanx-labs/beacon-bucket-sdk/api";
 
 service NormalUploadService {
   rpc Upload(UploadRequest) returns (UploadResponse);

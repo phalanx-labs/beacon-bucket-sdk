@@ -3,7 +3,7 @@ package bBucket
 import (
 	"context"
 
-	"github.com/phalanx-labs/beacon-bucket-sdk/internal/api"
+	"github.com/phalanx-labs/beacon-bucket-sdk/api"
 )
 
 // INormalUpload 定义了存储桶操作的标准接口

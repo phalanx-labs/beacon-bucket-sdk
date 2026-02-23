@@ -792,7 +792,7 @@ const file_normal_upload_proto_rawDesc = "" +
 	"\x06Upload\x12\x14.proto.UploadRequest\x1a\x15.proto.UploadResponse\x12,\n" +
 	"\x03Get\x12\x11.proto.GetRequest\x1a\x12.proto.GetResponse\x12D\n" +
 	"\vCacheVerify\x12\x19.proto.CacheVerifyRequest\x1a\x1a.proto.CacheVerifyResponse\x125\n" +
-	"\x06Delete\x12\x14.proto.DeleteRequest\x1a\x15.proto.DeleteResponseB8Z6github.com/phalanx-labs/beacon-bucket-sdk/internal/apib\x06proto3"
+	"\x06Delete\x12\x14.proto.DeleteRequest\x1a\x15.proto.DeleteResponseB/Z-github.com/phalanx-labs/beacon-bucket-sdk/apib\x06proto3"
 
 var (
 	file_normal_upload_proto_rawDescOnce sync.Once

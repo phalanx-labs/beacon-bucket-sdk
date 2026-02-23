@@ -1,7 +1,7 @@
 package bBucket
 
 import (
-	"github.com/phalanx-labs/beacon-bucket-sdk/internal/api/apiconnect"
+	"github.com/phalanx-labs/beacon-bucket-sdk/internal/apiconnect"
 )
 
 // BucketClient 是 Beacon Bucket SDK 的主客户端
