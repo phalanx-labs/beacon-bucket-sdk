@@ -7,7 +7,7 @@
 package api
 
 import (
-	generate "github.com/bamboo-services/bamboo-base-go/grpc/generate"
+	generate "github.com/bamboo-services/bamboo-base-go/plugins/grpc/generate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"

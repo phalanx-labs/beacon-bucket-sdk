@@ -5,7 +5,7 @@ plugins:
     out: internal/api
     opt:
       - paths=source_relative
-      - Mlink/base.proto=github.com/bamboo-services/bamboo-base-go/grpc/generate
+      - Mlink/base.proto=github.com/bamboo-services/bamboo-base-go/plugins/grpc/generate
   - local: protoc-gen-connect-go
     out: internal/api
     opt:
