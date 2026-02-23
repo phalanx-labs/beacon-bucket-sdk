@@ -159,6 +159,7 @@ type mockNormalUploadServiceClient struct {
 	uploadFunc      func(context.Context, *connect.Request[api.UploadRequest]) (*connect.Response[api.UploadResponse], error)
 	cacheVerifyFunc func(context.Context, *connect.Request[api.CacheVerifyRequest]) (*connect.Response[api.CacheVerifyResponse], error)
 	deleteFunc      func(context.Context, *connect.Request[api.DeleteRequest]) (*connect.Response[api.DeleteResponse], error)
+	getFunc         func(context.Context, *connect.Request[api.GetRequest]) (*connect.Response[api.GetResponse], error)
 }
 
 func (m *mockNormalUploadServiceClient) Upload(ctx context.Context, req *connect.Request[api.UploadRequest]) (*connect.Response[api.UploadResponse], error) {
@@ -180,4 +181,11 @@ func (m *mockNormalUploadServiceClient) Delete(ctx context.Context, req *connect
 		return m.deleteFunc(ctx, req)
 	}
 	return nil, errors.New("Delete not implemented")
+}
+
+func (m *mockNormalUploadServiceClient) Get(ctx context.Context, req *connect.Request[api.GetRequest]) (*connect.Response[api.GetResponse], error) {
+	if m.getFunc != nil {
+		return m.getFunc(ctx, req)
+	}
+	return nil, errors.New("Get not implemented")
 }

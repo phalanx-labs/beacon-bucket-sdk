@@ -8,7 +8,7 @@ import (
 	"net/http"
 
 	"connectrpc.com/connect"
-	"github.com/phalanx-labs/beacon-bucket-sdk/internal/apiconnect"
+	"github.com/phalanx-labs/beacon-bucket-sdk/apiconnect"
 	"github.com/phalanx-labs/beacon-bucket-sdk/service"
 	"golang.org/x/net/http2"
 )

@@ -6,7 +6,7 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/phalanx-labs/beacon-bucket-sdk/api"
-	"github.com/phalanx-labs/beacon-bucket-sdk/internal/apiconnect"
+	"github.com/phalanx-labs/beacon-bucket-sdk/apiconnect"
 )
 
 // NormalUploadService 封装了 NormalUpload 的 proto 调用逻辑
