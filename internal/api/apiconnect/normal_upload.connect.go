@@ -36,6 +36,8 @@ const (
 	// NormalUploadServiceUploadProcedure is the fully-qualified name of the NormalUploadService's
 	// Upload RPC.
 	NormalUploadServiceUploadProcedure = "/proto.NormalUploadService/Upload"
+	// NormalUploadServiceGetProcedure is the fully-qualified name of the NormalUploadService's Get RPC.
+	NormalUploadServiceGetProcedure = "/proto.NormalUploadService/Get"
 	// NormalUploadServiceCacheVerifyProcedure is the fully-qualified name of the NormalUploadService's
 	// CacheVerify RPC.
 	NormalUploadServiceCacheVerifyProcedure = "/proto.NormalUploadService/CacheVerify"
@@ -47,6 +49,7 @@ const (
 // NormalUploadServiceClient is a client for the proto.NormalUploadService service.
 type NormalUploadServiceClient interface {
 	Upload(context.Context, *connect.Request[api.UploadRequest]) (*connect.Response[api.UploadResponse], error)
+	Get(context.Context, *connect.Request[api.GetRequest]) (*connect.Response[api.GetResponse], error)
 	CacheVerify(context.Context, *connect.Request[api.CacheVerifyRequest]) (*connect.Response[api.CacheVerifyResponse], error)
 	Delete(context.Context, *connect.Request[api.DeleteRequest]) (*connect.Response[api.DeleteResponse], error)
 }
@@ -68,6 +71,12 @@ func NewNormalUploadServiceClient(httpClient connect.HTTPClient, baseURL string,
 			connect.WithSchema(normalUploadServiceMethods.ByName("Upload")),
 			connect.WithClientOptions(opts...),
 		),
+		get: connect.NewClient[api.GetRequest, api.GetResponse](
+			httpClient,
+			baseURL+NormalUploadServiceGetProcedure,
+			connect.WithSchema(normalUploadServiceMethods.ByName("Get")),
+			connect.WithClientOptions(opts...),
+		),
 		cacheVerify: connect.NewClient[api.CacheVerifyRequest, api.CacheVerifyResponse](
 			httpClient,
 			baseURL+NormalUploadServiceCacheVerifyProcedure,
@@ -86,6 +95,7 @@ func NewNormalUploadServiceClient(httpClient connect.HTTPClient, baseURL string,
 // normalUploadServiceClient implements NormalUploadServiceClient.
 type normalUploadServiceClient struct {
 	upload      *connect.Client[api.UploadRequest, api.UploadResponse]
+	get         *connect.Client[api.GetRequest, api.GetResponse]
 	cacheVerify *connect.Client[api.CacheVerifyRequest, api.CacheVerifyResponse]
 	delete      *connect.Client[api.DeleteRequest, api.DeleteResponse]
 }
@@ -93,6 +103,11 @@ type normalUploadServiceClient struct {
 // Upload calls proto.NormalUploadService.Upload.
 func (c *normalUploadServiceClient) Upload(ctx context.Context, req *connect.Request[api.UploadRequest]) (*connect.Response[api.UploadResponse], error) {
 	return c.upload.CallUnary(ctx, req)
+}
+
+// Get calls proto.NormalUploadService.Get.
+func (c *normalUploadServiceClient) Get(ctx context.Context, req *connect.Request[api.GetRequest]) (*connect.Response[api.GetResponse], error) {
+	return c.get.CallUnary(ctx, req)
 }
 
 // CacheVerify calls proto.NormalUploadService.CacheVerify.
@@ -108,6 +123,7 @@ func (c *normalUploadServiceClient) Delete(ctx context.Context, req *connect.Req
 // NormalUploadServiceHandler is an implementation of the proto.NormalUploadService service.
 type NormalUploadServiceHandler interface {
 	Upload(context.Context, *connect.Request[api.UploadRequest]) (*connect.Response[api.UploadResponse], error)
+	Get(context.Context, *connect.Request[api.GetRequest]) (*connect.Response[api.GetResponse], error)
 	CacheVerify(context.Context, *connect.Request[api.CacheVerifyRequest]) (*connect.Response[api.CacheVerifyResponse], error)
 	Delete(context.Context, *connect.Request[api.DeleteRequest]) (*connect.Response[api.DeleteResponse], error)
 }
@@ -123,6 +139,12 @@ func NewNormalUploadServiceHandler(svc NormalUploadServiceHandler, opts ...conne
 		NormalUploadServiceUploadProcedure,
 		svc.Upload,
 		connect.WithSchema(normalUploadServiceMethods.ByName("Upload")),
+		connect.WithHandlerOptions(opts...),
+	)
+	normalUploadServiceGetHandler := connect.NewUnaryHandler(
+		NormalUploadServiceGetProcedure,
+		svc.Get,
+		connect.WithSchema(normalUploadServiceMethods.ByName("Get")),
 		connect.WithHandlerOptions(opts...),
 	)
 	normalUploadServiceCacheVerifyHandler := connect.NewUnaryHandler(
@@ -141,6 +163,8 @@ func NewNormalUploadServiceHandler(svc NormalUploadServiceHandler, opts ...conne
 		switch r.URL.Path {
 		case NormalUploadServiceUploadProcedure:
 			normalUploadServiceUploadHandler.ServeHTTP(w, r)
+		case NormalUploadServiceGetProcedure:
+			normalUploadServiceGetHandler.ServeHTTP(w, r)
 		case NormalUploadServiceCacheVerifyProcedure:
 			normalUploadServiceCacheVerifyHandler.ServeHTTP(w, r)
 		case NormalUploadServiceDeleteProcedure:
@@ -156,6 +180,10 @@ type UnimplementedNormalUploadServiceHandler struct{}
 
 func (UnimplementedNormalUploadServiceHandler) Upload(context.Context, *connect.Request[api.UploadRequest]) (*connect.Response[api.UploadResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("proto.NormalUploadService.Upload is not implemented"))
+}
+
+func (UnimplementedNormalUploadServiceHandler) Get(context.Context, *connect.Request[api.GetRequest]) (*connect.Response[api.GetResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("proto.NormalUploadService.Get is not implemented"))
 }
 
 func (UnimplementedNormalUploadServiceHandler) CacheVerify(context.Context, *connect.Request[api.CacheVerifyRequest]) (*connect.Response[api.CacheVerifyResponse], error) {

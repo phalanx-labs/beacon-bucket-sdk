@@ -62,4 +62,18 @@ type INormalUpload interface {
 	//   - *api.DeleteResponse: 包含操作基础元数据的响应对象。
 	//   - error: 如果文件不存在、无权限或底层存储通信失败，则返回非 nil 错误。
 	Delete(ctx context.Context, req *api.DeleteRequest) (*api.DeleteResponse, error)
+
+	// Get 根据文件ID获取文件元数据信息
+	//
+	// 该方法用于查询指定文件的详细信息，包括文件存储路径、大小、ETag、MIME类型、
+	// 缓存状态及上传时间等。适用于需要验证文件存在性或获取文件属性的场景。
+	//
+	// 参数说明:
+	//   - ctx: 请求上下文，用于控制超时和传递链路追踪信息。
+	//   - req: 包含目标文件ID的请求对象，`FileId` 为必填字段。
+	//
+	// 返回值:
+	//   - *api.GetResponse: 文件完整元数据，包含基础响应状态、存储位置、文件属性及缓存信息。
+	//   - error: 当文件不存在、请求参数无效或存储服务异常时返回非nil错误。
+	Get(ctx context.Context, req *api.GetRequest) (*api.GetResponse, error)
 }

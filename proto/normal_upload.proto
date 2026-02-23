@@ -10,8 +10,22 @@ option go_package = "github.com/phalanx-labs/beacon-bucket-sdk/internal/api";
 
 service NormalUploadService {
   rpc Upload(UploadRequest) returns (UploadResponse);
+  rpc Get(GetRequest) returns (GetResponse);
   rpc CacheVerify(CacheVerifyRequest) returns (CacheVerifyResponse);
   rpc Delete(DeleteRequest) returns (DeleteResponse);
+}
+
+// 嵌套对象：对象键信息
+message ObjectKeyInfo {
+  string object_key = 1;
+  string link = 2;
+  string full_key = 3;
+}
+
+// 嵌套对象：ETag 信息（包含 MD5 和 SHA256）
+message ETagInfo {
+  string md5 = 1;
+  string sha256 = 2;
 }
 
 // =======================================
@@ -32,12 +46,36 @@ message UploadResponse {
   string path_id = 4;
   string file_name = 5;
   int64 size = 6;
-  optional string etag = 7;
+  ETagInfo etag = 7;
   string mime_type = 8;
   bool is_cache = 9;
   google.protobuf.Timestamp uploaded_at = 10;
   optional google.protobuf.Timestamp cache_verify_deadline_at = 11;
-  optional string object_key = 12;
+  ObjectKeyInfo obj = 12;
+}
+
+// =======================================
+// Get - 获取文件信息
+// =======================================
+
+message GetRequest {
+  string file_id = 1;
+}
+
+message GetResponse {
+  xBase.BaseResponse base_response = 1;
+  string file_id = 2;
+  string bucket_id = 3;
+  string path_id = 4;
+  string file_name = 5;
+  int64 size = 6;
+  ETagInfo etag = 7;
+  string mime_type = 8;
+  bool is_cache = 9;
+  google.protobuf.Timestamp uploaded_at = 10;
+  optional google.protobuf.Timestamp cache_verify_deadline_at = 11;
+  ObjectKeyInfo obj = 12;
+  optional string description = 13;
 }
 
 // =======================================
