@@ -50,3 +50,7 @@ logs/
 # Temporary files
 tmp/
 temp/
+
+### Proto Build ###
+.buf-third-party/
+proto/link
