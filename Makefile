@@ -1,6 +1,6 @@
 # 变量定义，方便后续维护
 PROTO_FILE ?= proto/normal_upload.proto
-BASE_GO_MODULE_DIR := /Users/xiaolfeng/ProgramProjects/Cooperate/bamboo-service/bamboo-base
+BASE_GO_MODULE_DIR := /Users/xiaolfeng/ProgramProjects/Cooperate/bamboo-service/bamboo-base/plugins/grpc
 XBASE_LINK := proto/link/base.proto
 
 # 获取版本号（去除 v 前缀）

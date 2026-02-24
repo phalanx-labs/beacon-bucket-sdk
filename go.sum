@@ -1,7 +1,7 @@
 connectrpc.com/connect v1.19.1 h1:R5M57z05+90EfEvCY1b7hBxDVOUl45PrtXtAV2fOC14=
 connectrpc.com/connect v1.19.1/go.mod h1:tN20fjdGlewnSFeZxLKb0xwIZ6ozc3OQs2hTXy4du9w=
-github.com/bamboo-services/bamboo-base-go/plugins/grpc v0.0.0-20260223070729-4ba628d69849 h1:n0CFEBSKs4FCR0YYwRaiP6H32r1jAiWIvgEvFAMwdnE=
-github.com/bamboo-services/bamboo-base-go/plugins/grpc v0.0.0-20260223070729-4ba628d69849/go.mod h1:lwAdiSDhnaAcg7TLNgwMUlxgZMsRrV0mLKio0npO8qY=
+github.com/bamboo-services/bamboo-base-go/plugins/grpc v1.0.0-202602241743 h1:RHjSnQBqomzBEcCzf2aQqg9JV7affryXxls6wO4yGE4=
+github.com/bamboo-services/bamboo-base-go/plugins/grpc v1.0.0-202602241743/go.mod h1:ygMq1/HJK323vKA9Wf82RYeDSWbZY/StG1qCYNc3aK4=
 github.com/google/go-cmp v0.7.0 h1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=
 github.com/google/go-cmp v0.7.0/go.mod h1:pXiqmnSA92OHEEa9HXL2W4E7lf9JzCmGVUdgjX3N/iU=
 golang.org/x/net v0.50.0 h1:ucWh9eiCGyDR3vtzso0WMQinm2Dnt8cFMuQa9K33J60=
