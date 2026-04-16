@@ -15,6 +15,7 @@ type mockNormalUploadServiceClient struct {
 	cacheVerifyFunc func(context.Context, *connect.Request[api.CacheVerifyRequest]) (*connect.Response[api.CacheVerifyResponse], error)
 	deleteFunc      func(context.Context, *connect.Request[api.DeleteRequest]) (*connect.Response[api.DeleteResponse], error)
 	getFunc         func(context.Context, *connect.Request[api.GetRequest]) (*connect.Response[api.GetResponse], error)
+	getByListFunc   func(context.Context, *connect.Request[api.GetByListRequest]) (*connect.Response[api.GetByListResponse], error)
 }
 
 func (m *mockNormalUploadServiceClient) Upload(ctx context.Context, req *connect.Request[api.UploadRequest]) (*connect.Response[api.UploadResponse], error) {
@@ -43,6 +44,13 @@ func (m *mockNormalUploadServiceClient) Get(ctx context.Context, req *connect.Re
 		return m.getFunc(ctx, req)
 	}
 	return nil, errors.New("Get not implemented")
+}
+
+func (m *mockNormalUploadServiceClient) GetByList(ctx context.Context, req *connect.Request[api.GetByListRequest]) (*connect.Response[api.GetByListResponse], error) {
+	if m.getByListFunc != nil {
+		return m.getByListFunc(ctx, req)
+	}
+	return nil, errors.New("GetByList not implemented")
 }
 
 // TestNormalUploadService_Upload 测试 Upload 方法

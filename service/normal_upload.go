@@ -129,3 +129,28 @@ func (s *NormalUploadService) Get(ctx context.Context, req *api.GetRequest) (*ap
 	// 转换响应
 	return resp.Msg, nil
 }
+
+// GetByList 根据文件ID列表批量获取文件详细信息
+func (s *NormalUploadService) GetByList(ctx context.Context, req *api.GetByListRequest) (*api.GetByListResponse, error) {
+	// 验证数据
+	if len(req.FileIdList) == 0 {
+		return nil, fmt.Errorf("file_id_list 不能为空")
+	}
+
+	// 构建 proto 请求
+	protoReq := connect.NewRequest(req)
+
+	// 添加 headers
+	for k, v := range s.headers {
+		protoReq.Header().Set(k, v)
+	}
+
+	// 调用 proto client
+	resp, err := s.client.GetByList(ctx, protoReq)
+	if err != nil {
+		return nil, err
+	}
+
+	// 转换响应
+	return resp.Msg, nil
+}

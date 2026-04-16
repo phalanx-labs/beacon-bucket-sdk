@@ -11,6 +11,7 @@ option go_package = "github.com/phalanx-labs/beacon-bucket-sdk/api";
 service NormalUploadService {
   rpc Upload(UploadRequest) returns (UploadResponse);
   rpc Get(GetRequest) returns (GetResponse);
+  rpc GetByList(GetByListRequest) returns (GetByListResponse);
   rpc CacheVerify(CacheVerifyRequest) returns (CacheVerifyResponse);
   rpc Delete(DeleteRequest) returns (DeleteResponse);
 }
@@ -76,6 +77,35 @@ message GetResponse {
   optional google.protobuf.Timestamp cache_verify_deadline_at = 11;
   ObjectKeyInfo obj = 12;
   optional string description = 13;
+}
+
+// =======================================
+// GetByList - 批量获取文件信息
+// =======================================
+
+// FileInfo 单个文件信息（复用 GetResponse 的业务字段结构）
+message FileInfo {
+  string file_id = 1;
+  string bucket_id = 2;
+  string path_id = 3;
+  string file_name = 4;
+  int64 size = 5;
+  ETagInfo etag = 6;
+  string mime_type = 7;
+  bool is_cache = 8;
+  google.protobuf.Timestamp uploaded_at = 9;
+  optional google.protobuf.Timestamp cache_verify_deadline_at = 10;
+  ObjectKeyInfo obj = 11;
+  optional string description = 12;
+}
+
+message GetByListRequest {
+  repeated string file_id_list = 1; // 文件 ID 列表（SnowflakeID 字符串），结果按此顺序返回
+}
+
+message GetByListResponse {
+  xBase.BaseResponse base_response = 1;
+  repeated FileInfo file_info_list = 2; // 按传入顺序排列的文件信息列表
 }
 
 // =======================================

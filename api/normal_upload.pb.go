@@ -521,6 +521,235 @@ func (x *GetResponse) GetDescription() string {
 	return ""
 }
 
+// FileInfo 单个文件信息（复用 GetResponse 的业务字段结构）
+type FileInfo struct {
+	state                 protoimpl.MessageState `protogen:"open.v1"`
+	FileId                string                 `protobuf:"bytes,1,opt,name=file_id,json=fileId,proto3" json:"file_id,omitempty"`
+	BucketId              string                 `protobuf:"bytes,2,opt,name=bucket_id,json=bucketId,proto3" json:"bucket_id,omitempty"`
+	PathId                string                 `protobuf:"bytes,3,opt,name=path_id,json=pathId,proto3" json:"path_id,omitempty"`
+	FileName              string                 `protobuf:"bytes,4,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`
+	Size                  int64                  `protobuf:"varint,5,opt,name=size,proto3" json:"size,omitempty"`
+	Etag                  *ETagInfo              `protobuf:"bytes,6,opt,name=etag,proto3" json:"etag,omitempty"`
+	MimeType              string                 `protobuf:"bytes,7,opt,name=mime_type,json=mimeType,proto3" json:"mime_type,omitempty"`
+	IsCache               bool                   `protobuf:"varint,8,opt,name=is_cache,json=isCache,proto3" json:"is_cache,omitempty"`
+	UploadedAt            *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=uploaded_at,json=uploadedAt,proto3" json:"uploaded_at,omitempty"`
+	CacheVerifyDeadlineAt *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=cache_verify_deadline_at,json=cacheVerifyDeadlineAt,proto3,oneof" json:"cache_verify_deadline_at,omitempty"`
+	Obj                   *ObjectKeyInfo         `protobuf:"bytes,11,opt,name=obj,proto3" json:"obj,omitempty"`
+	Description           *string                `protobuf:"bytes,12,opt,name=description,proto3,oneof" json:"description,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *FileInfo) Reset() {
+	*x = FileInfo{}
+	mi := &file_normal_upload_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FileInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FileInfo) ProtoMessage() {}
+
+func (x *FileInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_normal_upload_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FileInfo.ProtoReflect.Descriptor instead.
+func (*FileInfo) Descriptor() ([]byte, []int) {
+	return file_normal_upload_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *FileInfo) GetFileId() string {
+	if x != nil {
+		return x.FileId
+	}
+	return ""
+}
+
+func (x *FileInfo) GetBucketId() string {
+	if x != nil {
+		return x.BucketId
+	}
+	return ""
+}
+
+func (x *FileInfo) GetPathId() string {
+	if x != nil {
+		return x.PathId
+	}
+	return ""
+}
+
+func (x *FileInfo) GetFileName() string {
+	if x != nil {
+		return x.FileName
+	}
+	return ""
+}
+
+func (x *FileInfo) GetSize() int64 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
+}
+
+func (x *FileInfo) GetEtag() *ETagInfo {
+	if x != nil {
+		return x.Etag
+	}
+	return nil
+}
+
+func (x *FileInfo) GetMimeType() string {
+	if x != nil {
+		return x.MimeType
+	}
+	return ""
+}
+
+func (x *FileInfo) GetIsCache() bool {
+	if x != nil {
+		return x.IsCache
+	}
+	return false
+}
+
+func (x *FileInfo) GetUploadedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UploadedAt
+	}
+	return nil
+}
+
+func (x *FileInfo) GetCacheVerifyDeadlineAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CacheVerifyDeadlineAt
+	}
+	return nil
+}
+
+func (x *FileInfo) GetObj() *ObjectKeyInfo {
+	if x != nil {
+		return x.Obj
+	}
+	return nil
+}
+
+func (x *FileInfo) GetDescription() string {
+	if x != nil && x.Description != nil {
+		return *x.Description
+	}
+	return ""
+}
+
+type GetByListRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FileIdList    []string               `protobuf:"bytes,1,rep,name=file_id_list,json=fileIdList,proto3" json:"file_id_list,omitempty"` // 文件 ID 列表（SnowflakeID 字符串），结果按此顺序返回
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetByListRequest) Reset() {
+	*x = GetByListRequest{}
+	mi := &file_normal_upload_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetByListRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetByListRequest) ProtoMessage() {}
+
+func (x *GetByListRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_normal_upload_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetByListRequest.ProtoReflect.Descriptor instead.
+func (*GetByListRequest) Descriptor() ([]byte, []int) {
+	return file_normal_upload_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GetByListRequest) GetFileIdList() []string {
+	if x != nil {
+		return x.FileIdList
+	}
+	return nil
+}
+
+type GetByListResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	BaseResponse  *generate.BaseResponse `protobuf:"bytes,1,opt,name=base_response,json=baseResponse,proto3" json:"base_response,omitempty"`
+	FileInfoList  []*FileInfo            `protobuf:"bytes,2,rep,name=file_info_list,json=fileInfoList,proto3" json:"file_info_list,omitempty"` // 按传入顺序排列的文件信息列表
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetByListResponse) Reset() {
+	*x = GetByListResponse{}
+	mi := &file_normal_upload_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetByListResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetByListResponse) ProtoMessage() {}
+
+func (x *GetByListResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_normal_upload_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetByListResponse.ProtoReflect.Descriptor instead.
+func (*GetByListResponse) Descriptor() ([]byte, []int) {
+	return file_normal_upload_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *GetByListResponse) GetBaseResponse() *generate.BaseResponse {
+	if x != nil {
+		return x.BaseResponse
+	}
+	return nil
+}
+
+func (x *GetByListResponse) GetFileInfoList() []*FileInfo {
+	if x != nil {
+		return x.FileInfoList
+	}
+	return nil
+}
+
 type CacheVerifyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	FileId        string                 `protobuf:"bytes,1,opt,name=file_id,json=fileId,proto3" json:"file_id,omitempty"`
@@ -530,7 +759,7 @@ type CacheVerifyRequest struct {
 
 func (x *CacheVerifyRequest) Reset() {
 	*x = CacheVerifyRequest{}
-	mi := &file_normal_upload_proto_msgTypes[6]
+	mi := &file_normal_upload_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -542,7 +771,7 @@ func (x *CacheVerifyRequest) String() string {
 func (*CacheVerifyRequest) ProtoMessage() {}
 
 func (x *CacheVerifyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_normal_upload_proto_msgTypes[6]
+	mi := &file_normal_upload_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -555,7 +784,7 @@ func (x *CacheVerifyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CacheVerifyRequest.ProtoReflect.Descriptor instead.
 func (*CacheVerifyRequest) Descriptor() ([]byte, []int) {
-	return file_normal_upload_proto_rawDescGZIP(), []int{6}
+	return file_normal_upload_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *CacheVerifyRequest) GetFileId() string {
@@ -577,7 +806,7 @@ type CacheVerifyResponse struct {
 
 func (x *CacheVerifyResponse) Reset() {
 	*x = CacheVerifyResponse{}
-	mi := &file_normal_upload_proto_msgTypes[7]
+	mi := &file_normal_upload_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -589,7 +818,7 @@ func (x *CacheVerifyResponse) String() string {
 func (*CacheVerifyResponse) ProtoMessage() {}
 
 func (x *CacheVerifyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_normal_upload_proto_msgTypes[7]
+	mi := &file_normal_upload_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -602,7 +831,7 @@ func (x *CacheVerifyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CacheVerifyResponse.ProtoReflect.Descriptor instead.
 func (*CacheVerifyResponse) Descriptor() ([]byte, []int) {
-	return file_normal_upload_proto_rawDescGZIP(), []int{7}
+	return file_normal_upload_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *CacheVerifyResponse) GetBaseResponse() *generate.BaseResponse {
@@ -642,7 +871,7 @@ type DeleteRequest struct {
 
 func (x *DeleteRequest) Reset() {
 	*x = DeleteRequest{}
-	mi := &file_normal_upload_proto_msgTypes[8]
+	mi := &file_normal_upload_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -654,7 +883,7 @@ func (x *DeleteRequest) String() string {
 func (*DeleteRequest) ProtoMessage() {}
 
 func (x *DeleteRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_normal_upload_proto_msgTypes[8]
+	mi := &file_normal_upload_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -667,7 +896,7 @@ func (x *DeleteRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteRequest.ProtoReflect.Descriptor instead.
 func (*DeleteRequest) Descriptor() ([]byte, []int) {
-	return file_normal_upload_proto_rawDescGZIP(), []int{8}
+	return file_normal_upload_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *DeleteRequest) GetFileId() string {
@@ -686,7 +915,7 @@ type DeleteResponse struct {
 
 func (x *DeleteResponse) Reset() {
 	*x = DeleteResponse{}
-	mi := &file_normal_upload_proto_msgTypes[9]
+	mi := &file_normal_upload_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -698,7 +927,7 @@ func (x *DeleteResponse) String() string {
 func (*DeleteResponse) ProtoMessage() {}
 
 func (x *DeleteResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_normal_upload_proto_msgTypes[9]
+	mi := &file_normal_upload_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -711,7 +940,7 @@ func (x *DeleteResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteResponse.ProtoReflect.Descriptor instead.
 func (*DeleteResponse) Descriptor() ([]byte, []int) {
-	return file_normal_upload_proto_rawDescGZIP(), []int{9}
+	return file_normal_upload_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *DeleteResponse) GetBaseResponse() *generate.BaseResponse {
@@ -776,7 +1005,30 @@ const file_normal_upload_proto_rawDesc = "" +
 	"\x03obj\x18\f \x01(\v2\x14.proto.ObjectKeyInfoR\x03obj\x12%\n" +
 	"\vdescription\x18\r \x01(\tH\x01R\vdescription\x88\x01\x01B\x1b\n" +
 	"\x19_cache_verify_deadline_atB\x0e\n" +
-	"\f_description\"-\n" +
+	"\f_description\"\xfa\x03\n" +
+	"\bFileInfo\x12\x17\n" +
+	"\afile_id\x18\x01 \x01(\tR\x06fileId\x12\x1b\n" +
+	"\tbucket_id\x18\x02 \x01(\tR\bbucketId\x12\x17\n" +
+	"\apath_id\x18\x03 \x01(\tR\x06pathId\x12\x1b\n" +
+	"\tfile_name\x18\x04 \x01(\tR\bfileName\x12\x12\n" +
+	"\x04size\x18\x05 \x01(\x03R\x04size\x12#\n" +
+	"\x04etag\x18\x06 \x01(\v2\x0f.proto.ETagInfoR\x04etag\x12\x1b\n" +
+	"\tmime_type\x18\a \x01(\tR\bmimeType\x12\x19\n" +
+	"\bis_cache\x18\b \x01(\bR\aisCache\x12;\n" +
+	"\vuploaded_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"uploadedAt\x12X\n" +
+	"\x18cache_verify_deadline_at\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampH\x00R\x15cacheVerifyDeadlineAt\x88\x01\x01\x12&\n" +
+	"\x03obj\x18\v \x01(\v2\x14.proto.ObjectKeyInfoR\x03obj\x12%\n" +
+	"\vdescription\x18\f \x01(\tH\x01R\vdescription\x88\x01\x01B\x1b\n" +
+	"\x19_cache_verify_deadline_atB\x0e\n" +
+	"\f_description\"4\n" +
+	"\x10GetByListRequest\x12 \n" +
+	"\ffile_id_list\x18\x01 \x03(\tR\n" +
+	"fileIdList\"\x84\x01\n" +
+	"\x11GetByListResponse\x128\n" +
+	"\rbase_response\x18\x01 \x01(\v2\x13.xBase.BaseResponseR\fbaseResponse\x125\n" +
+	"\x0efile_info_list\x18\x02 \x03(\v2\x0f.proto.FileInfoR\ffileInfoList\"-\n" +
 	"\x12CacheVerifyRequest\x12\x17\n" +
 	"\afile_id\x18\x01 \x01(\tR\x06fileId\"\xc7\x01\n" +
 	"\x13CacheVerifyResponse\x128\n" +
@@ -787,10 +1039,11 @@ const file_normal_upload_proto_rawDesc = "" +
 	"\rDeleteRequest\x12\x17\n" +
 	"\afile_id\x18\x01 \x01(\tR\x06fileId\"J\n" +
 	"\x0eDeleteResponse\x128\n" +
-	"\rbase_response\x18\x01 \x01(\v2\x13.xBase.BaseResponseR\fbaseResponse2\xf7\x01\n" +
+	"\rbase_response\x18\x01 \x01(\v2\x13.xBase.BaseResponseR\fbaseResponse2\xb7\x02\n" +
 	"\x13NormalUploadService\x125\n" +
 	"\x06Upload\x12\x14.proto.UploadRequest\x1a\x15.proto.UploadResponse\x12,\n" +
-	"\x03Get\x12\x11.proto.GetRequest\x1a\x12.proto.GetResponse\x12D\n" +
+	"\x03Get\x12\x11.proto.GetRequest\x1a\x12.proto.GetResponse\x12>\n" +
+	"\tGetByList\x12\x17.proto.GetByListRequest\x1a\x18.proto.GetByListResponse\x12D\n" +
 	"\vCacheVerify\x12\x19.proto.CacheVerifyRequest\x1a\x1a.proto.CacheVerifyResponse\x125\n" +
 	"\x06Delete\x12\x14.proto.DeleteRequest\x1a\x15.proto.DeleteResponseB/Z-github.com/phalanx-labs/beacon-bucket-sdk/apib\x06proto3"
 
@@ -806,7 +1059,7 @@ func file_normal_upload_proto_rawDescGZIP() []byte {
 	return file_normal_upload_proto_rawDescData
 }
 
-var file_normal_upload_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_normal_upload_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_normal_upload_proto_goTypes = []any{
 	(*ObjectKeyInfo)(nil),         // 0: proto.ObjectKeyInfo
 	(*ETagInfo)(nil),              // 1: proto.ETagInfo
@@ -814,40 +1067,51 @@ var file_normal_upload_proto_goTypes = []any{
 	(*UploadResponse)(nil),        // 3: proto.UploadResponse
 	(*GetRequest)(nil),            // 4: proto.GetRequest
 	(*GetResponse)(nil),           // 5: proto.GetResponse
-	(*CacheVerifyRequest)(nil),    // 6: proto.CacheVerifyRequest
-	(*CacheVerifyResponse)(nil),   // 7: proto.CacheVerifyResponse
-	(*DeleteRequest)(nil),         // 8: proto.DeleteRequest
-	(*DeleteResponse)(nil),        // 9: proto.DeleteResponse
-	(*generate.BaseResponse)(nil), // 10: xBase.BaseResponse
-	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
+	(*FileInfo)(nil),              // 6: proto.FileInfo
+	(*GetByListRequest)(nil),      // 7: proto.GetByListRequest
+	(*GetByListResponse)(nil),     // 8: proto.GetByListResponse
+	(*CacheVerifyRequest)(nil),    // 9: proto.CacheVerifyRequest
+	(*CacheVerifyResponse)(nil),   // 10: proto.CacheVerifyResponse
+	(*DeleteRequest)(nil),         // 11: proto.DeleteRequest
+	(*DeleteResponse)(nil),        // 12: proto.DeleteResponse
+	(*generate.BaseResponse)(nil), // 13: xBase.BaseResponse
+	(*timestamppb.Timestamp)(nil), // 14: google.protobuf.Timestamp
 }
 var file_normal_upload_proto_depIdxs = []int32{
-	10, // 0: proto.UploadResponse.base_response:type_name -> xBase.BaseResponse
+	13, // 0: proto.UploadResponse.base_response:type_name -> xBase.BaseResponse
 	1,  // 1: proto.UploadResponse.etag:type_name -> proto.ETagInfo
-	11, // 2: proto.UploadResponse.uploaded_at:type_name -> google.protobuf.Timestamp
-	11, // 3: proto.UploadResponse.cache_verify_deadline_at:type_name -> google.protobuf.Timestamp
+	14, // 2: proto.UploadResponse.uploaded_at:type_name -> google.protobuf.Timestamp
+	14, // 3: proto.UploadResponse.cache_verify_deadline_at:type_name -> google.protobuf.Timestamp
 	0,  // 4: proto.UploadResponse.obj:type_name -> proto.ObjectKeyInfo
-	10, // 5: proto.GetResponse.base_response:type_name -> xBase.BaseResponse
+	13, // 5: proto.GetResponse.base_response:type_name -> xBase.BaseResponse
 	1,  // 6: proto.GetResponse.etag:type_name -> proto.ETagInfo
-	11, // 7: proto.GetResponse.uploaded_at:type_name -> google.protobuf.Timestamp
-	11, // 8: proto.GetResponse.cache_verify_deadline_at:type_name -> google.protobuf.Timestamp
+	14, // 7: proto.GetResponse.uploaded_at:type_name -> google.protobuf.Timestamp
+	14, // 8: proto.GetResponse.cache_verify_deadline_at:type_name -> google.protobuf.Timestamp
 	0,  // 9: proto.GetResponse.obj:type_name -> proto.ObjectKeyInfo
-	10, // 10: proto.CacheVerifyResponse.base_response:type_name -> xBase.BaseResponse
-	11, // 11: proto.CacheVerifyResponse.cache_verify_at:type_name -> google.protobuf.Timestamp
-	10, // 12: proto.DeleteResponse.base_response:type_name -> xBase.BaseResponse
-	2,  // 13: proto.NormalUploadService.Upload:input_type -> proto.UploadRequest
-	4,  // 14: proto.NormalUploadService.Get:input_type -> proto.GetRequest
-	6,  // 15: proto.NormalUploadService.CacheVerify:input_type -> proto.CacheVerifyRequest
-	8,  // 16: proto.NormalUploadService.Delete:input_type -> proto.DeleteRequest
-	3,  // 17: proto.NormalUploadService.Upload:output_type -> proto.UploadResponse
-	5,  // 18: proto.NormalUploadService.Get:output_type -> proto.GetResponse
-	7,  // 19: proto.NormalUploadService.CacheVerify:output_type -> proto.CacheVerifyResponse
-	9,  // 20: proto.NormalUploadService.Delete:output_type -> proto.DeleteResponse
-	17, // [17:21] is the sub-list for method output_type
-	13, // [13:17] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	1,  // 10: proto.FileInfo.etag:type_name -> proto.ETagInfo
+	14, // 11: proto.FileInfo.uploaded_at:type_name -> google.protobuf.Timestamp
+	14, // 12: proto.FileInfo.cache_verify_deadline_at:type_name -> google.protobuf.Timestamp
+	0,  // 13: proto.FileInfo.obj:type_name -> proto.ObjectKeyInfo
+	13, // 14: proto.GetByListResponse.base_response:type_name -> xBase.BaseResponse
+	6,  // 15: proto.GetByListResponse.file_info_list:type_name -> proto.FileInfo
+	13, // 16: proto.CacheVerifyResponse.base_response:type_name -> xBase.BaseResponse
+	14, // 17: proto.CacheVerifyResponse.cache_verify_at:type_name -> google.protobuf.Timestamp
+	13, // 18: proto.DeleteResponse.base_response:type_name -> xBase.BaseResponse
+	2,  // 19: proto.NormalUploadService.Upload:input_type -> proto.UploadRequest
+	4,  // 20: proto.NormalUploadService.Get:input_type -> proto.GetRequest
+	7,  // 21: proto.NormalUploadService.GetByList:input_type -> proto.GetByListRequest
+	9,  // 22: proto.NormalUploadService.CacheVerify:input_type -> proto.CacheVerifyRequest
+	11, // 23: proto.NormalUploadService.Delete:input_type -> proto.DeleteRequest
+	3,  // 24: proto.NormalUploadService.Upload:output_type -> proto.UploadResponse
+	5,  // 25: proto.NormalUploadService.Get:output_type -> proto.GetResponse
+	8,  // 26: proto.NormalUploadService.GetByList:output_type -> proto.GetByListResponse
+	10, // 27: proto.NormalUploadService.CacheVerify:output_type -> proto.CacheVerifyResponse
+	12, // 28: proto.NormalUploadService.Delete:output_type -> proto.DeleteResponse
+	24, // [24:29] is the sub-list for method output_type
+	19, // [19:24] is the sub-list for method input_type
+	19, // [19:19] is the sub-list for extension type_name
+	19, // [19:19] is the sub-list for extension extendee
+	0,  // [0:19] is the sub-list for field type_name
 }
 
 func init() { file_normal_upload_proto_init() }
@@ -858,13 +1122,14 @@ func file_normal_upload_proto_init() {
 	file_normal_upload_proto_msgTypes[2].OneofWrappers = []any{}
 	file_normal_upload_proto_msgTypes[3].OneofWrappers = []any{}
 	file_normal_upload_proto_msgTypes[5].OneofWrappers = []any{}
+	file_normal_upload_proto_msgTypes[6].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_normal_upload_proto_rawDesc), len(file_normal_upload_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

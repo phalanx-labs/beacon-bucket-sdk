@@ -38,6 +38,9 @@ const (
 	NormalUploadServiceUploadProcedure = "/proto.NormalUploadService/Upload"
 	// NormalUploadServiceGetProcedure is the fully-qualified name of the NormalUploadService's Get RPC.
 	NormalUploadServiceGetProcedure = "/proto.NormalUploadService/Get"
+	// NormalUploadServiceGetByListProcedure is the fully-qualified name of the NormalUploadService's
+	// GetByList RPC.
+	NormalUploadServiceGetByListProcedure = "/proto.NormalUploadService/GetByList"
 	// NormalUploadServiceCacheVerifyProcedure is the fully-qualified name of the NormalUploadService's
 	// CacheVerify RPC.
 	NormalUploadServiceCacheVerifyProcedure = "/proto.NormalUploadService/CacheVerify"
@@ -50,6 +53,7 @@ const (
 type NormalUploadServiceClient interface {
 	Upload(context.Context, *connect.Request[api.UploadRequest]) (*connect.Response[api.UploadResponse], error)
 	Get(context.Context, *connect.Request[api.GetRequest]) (*connect.Response[api.GetResponse], error)
+	GetByList(context.Context, *connect.Request[api.GetByListRequest]) (*connect.Response[api.GetByListResponse], error)
 	CacheVerify(context.Context, *connect.Request[api.CacheVerifyRequest]) (*connect.Response[api.CacheVerifyResponse], error)
 	Delete(context.Context, *connect.Request[api.DeleteRequest]) (*connect.Response[api.DeleteResponse], error)
 }
@@ -77,6 +81,12 @@ func NewNormalUploadServiceClient(httpClient connect.HTTPClient, baseURL string,
 			connect.WithSchema(normalUploadServiceMethods.ByName("Get")),
 			connect.WithClientOptions(opts...),
 		),
+		getByList: connect.NewClient[api.GetByListRequest, api.GetByListResponse](
+			httpClient,
+			baseURL+NormalUploadServiceGetByListProcedure,
+			connect.WithSchema(normalUploadServiceMethods.ByName("GetByList")),
+			connect.WithClientOptions(opts...),
+		),
 		cacheVerify: connect.NewClient[api.CacheVerifyRequest, api.CacheVerifyResponse](
 			httpClient,
 			baseURL+NormalUploadServiceCacheVerifyProcedure,
@@ -96,6 +106,7 @@ func NewNormalUploadServiceClient(httpClient connect.HTTPClient, baseURL string,
 type normalUploadServiceClient struct {
 	upload      *connect.Client[api.UploadRequest, api.UploadResponse]
 	get         *connect.Client[api.GetRequest, api.GetResponse]
+	getByList   *connect.Client[api.GetByListRequest, api.GetByListResponse]
 	cacheVerify *connect.Client[api.CacheVerifyRequest, api.CacheVerifyResponse]
 	delete      *connect.Client[api.DeleteRequest, api.DeleteResponse]
 }
@@ -108,6 +119,11 @@ func (c *normalUploadServiceClient) Upload(ctx context.Context, req *connect.Req
 // Get calls proto.NormalUploadService.Get.
 func (c *normalUploadServiceClient) Get(ctx context.Context, req *connect.Request[api.GetRequest]) (*connect.Response[api.GetResponse], error) {
 	return c.get.CallUnary(ctx, req)
+}
+
+// GetByList calls proto.NormalUploadService.GetByList.
+func (c *normalUploadServiceClient) GetByList(ctx context.Context, req *connect.Request[api.GetByListRequest]) (*connect.Response[api.GetByListResponse], error) {
+	return c.getByList.CallUnary(ctx, req)
 }
 
 // CacheVerify calls proto.NormalUploadService.CacheVerify.
@@ -124,6 +140,7 @@ func (c *normalUploadServiceClient) Delete(ctx context.Context, req *connect.Req
 type NormalUploadServiceHandler interface {
 	Upload(context.Context, *connect.Request[api.UploadRequest]) (*connect.Response[api.UploadResponse], error)
 	Get(context.Context, *connect.Request[api.GetRequest]) (*connect.Response[api.GetResponse], error)
+	GetByList(context.Context, *connect.Request[api.GetByListRequest]) (*connect.Response[api.GetByListResponse], error)
 	CacheVerify(context.Context, *connect.Request[api.CacheVerifyRequest]) (*connect.Response[api.CacheVerifyResponse], error)
 	Delete(context.Context, *connect.Request[api.DeleteRequest]) (*connect.Response[api.DeleteResponse], error)
 }
@@ -147,6 +164,12 @@ func NewNormalUploadServiceHandler(svc NormalUploadServiceHandler, opts ...conne
 		connect.WithSchema(normalUploadServiceMethods.ByName("Get")),
 		connect.WithHandlerOptions(opts...),
 	)
+	normalUploadServiceGetByListHandler := connect.NewUnaryHandler(
+		NormalUploadServiceGetByListProcedure,
+		svc.GetByList,
+		connect.WithSchema(normalUploadServiceMethods.ByName("GetByList")),
+		connect.WithHandlerOptions(opts...),
+	)
 	normalUploadServiceCacheVerifyHandler := connect.NewUnaryHandler(
 		NormalUploadServiceCacheVerifyProcedure,
 		svc.CacheVerify,
@@ -165,6 +188,8 @@ func NewNormalUploadServiceHandler(svc NormalUploadServiceHandler, opts ...conne
 			normalUploadServiceUploadHandler.ServeHTTP(w, r)
 		case NormalUploadServiceGetProcedure:
 			normalUploadServiceGetHandler.ServeHTTP(w, r)
+		case NormalUploadServiceGetByListProcedure:
+			normalUploadServiceGetByListHandler.ServeHTTP(w, r)
 		case NormalUploadServiceCacheVerifyProcedure:
 			normalUploadServiceCacheVerifyHandler.ServeHTTP(w, r)
 		case NormalUploadServiceDeleteProcedure:
@@ -184,6 +209,10 @@ func (UnimplementedNormalUploadServiceHandler) Upload(context.Context, *connect.
 
 func (UnimplementedNormalUploadServiceHandler) Get(context.Context, *connect.Request[api.GetRequest]) (*connect.Response[api.GetResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("proto.NormalUploadService.Get is not implemented"))
+}
+
+func (UnimplementedNormalUploadServiceHandler) GetByList(context.Context, *connect.Request[api.GetByListRequest]) (*connect.Response[api.GetByListResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("proto.NormalUploadService.GetByList is not implemented"))
 }
 
 func (UnimplementedNormalUploadServiceHandler) CacheVerify(context.Context, *connect.Request[api.CacheVerifyRequest]) (*connect.Response[api.CacheVerifyResponse], error) {

@@ -76,4 +76,18 @@ type INormalUpload interface {
 	//   - *api.GetResponse: 文件完整元数据，包含基础响应状态、存储位置、文件属性及缓存信息。
 	//   - error: 当文件不存在、请求参数无效或存储服务异常时返回非nil错误。
 	Get(ctx context.Context, req *api.GetRequest) (*api.GetResponse, error)
+
+	// GetByList 根据文件ID列表批量获取文件元数据信息
+	//
+	// 该方法用于批量查询多个文件的详细信息，结果按传入的文件ID顺序返回。
+	// 适用于需要一次性获取多个文件属性的场景，减少多次调用 Get 的网络开销。
+	//
+	// 参数说明:
+	//   - ctx: 请求上下文，用于控制超时和传递链路追踪信息。
+	//   - req: 包含文件ID列表的请求对象，`FileIdList` 为必填字段。
+	//
+	// 返回值:
+	//   - *api.GetByListResponse: 包含基础响应和按顺序排列的文件信息列表。
+	//   - error: 当请求参数无效或存储服务异常时返回非nil错误。
+	GetByList(ctx context.Context, req *api.GetByListRequest) (*api.GetByListResponse, error)
 }
